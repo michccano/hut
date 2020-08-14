@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+$_SESSION["team_id"] = $_GET["id"];
+
 $servername = "localhost";
 $username = "root";
 $password = "";
