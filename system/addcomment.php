@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 error_reporting("E_ALL");
 
@@ -18,8 +19,10 @@ if ($conn->connect_error) {
 }
 
 if($_POST["text"]){
+
 $sql = "insert into huddleup_comments (post_id,description,commenter_id) values ('".$_POST["id"]."','".$_POST["text"]."','".$id."')";
 $result = $conn->query($sql);
+
 }
 
 

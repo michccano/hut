@@ -323,9 +323,6 @@ array_push($hups,array("full_name"=>$fn,"description"=>$d,"id"=>$row2["id"]));
 
 }
 
-
-
-
 ?>
  
 
@@ -455,14 +452,7 @@ foreach($hp_team["posts"] as $hp){
           </div>
    <?php }?>
 
-
-
-
-
         </div>
-
-
-
 
 
         <div class="row" >
@@ -560,12 +550,11 @@ $conn->close();
 
 
 
-
-
-
         <div class="row">
 
-          <div class="col-md-3">
+         <div class="col-md-3">
+
+
 
             <div class="row">
 
@@ -591,8 +580,10 @@ $conn->close();
             </div>
         </div>
 
+
+        <!--
           <div class="row">
-            <!-- Bar chart -->
+          
             <div class="card card-primary card-outline">
               <div class="card-header">
                 <h3 class="card-title">
@@ -612,14 +603,14 @@ $conn->close();
               <div class="card-body">
                 <div id="bar-chart" style="height: 300px;"></div>
               </div>
-              <!-- /.card-body-->
+             
             </div>
-            <!-- /.card -->
+         
               </div>
 
 
 
-             <!-- Area chart -->
+          
           <div class="row">
              
 
@@ -640,7 +631,7 @@ $conn->close();
                 <div class="card-body">
                   <div id="area-chart" style="height: 338px;" class="full-width-chart"></div>
                 </div>
-                <!-- /.card-body-->
+            
               </div>
 
 
@@ -650,7 +641,6 @@ $conn->close();
 
 
 
-          <!-- /.col -->
           <div class="row">
             <div class="card card-primary card-outline">
               <div class="card-header">
@@ -669,20 +659,16 @@ $conn->close();
               <div class="card-body">
                 <div id="donut-chart" style="height: 300px;"></div>
               </div>
-              <!-- /.card-body-->
+           
             </div>
+       
           </div>
-
+   -->
 
           </div>
 
 
        
-
-
-
-
-          <!-- /.col -->
         </div>
 
 
@@ -829,9 +815,25 @@ $.ajax(settings).done(function (response) {
 });
 
 
-
-  $(function () {
+$(function () {
     
+<?php
+
+$ttt = "";
+
+foreach($my_teams as $team){
+
+$ttt .= $team["id"].",";
+}
+
+$ttt = rtrim($ttt, ",");
+
+echo "var ids=[".$ttt."];"
+  ?>
+
+
+for( var h=0; h<ids.length; h++){
+
 
 var settings = {
   "url": "system/addcomment.php",
@@ -841,19 +843,23 @@ var settings = {
     "Content-Type": "application/x-www-form-urlencoded",
     "Authorization": "Bearer "+localStorage.token
   },
-  "data":{"id":1}
+
+  "data":{"id":ids[h]}
   
 };
 
-
-//asdasd
 
 $.ajax(settings).done(function (response) {
 
   var response = JSON.parse(response);
 
+  alert("#post_"+ids[h]);
+
   for(var i=0; i<response.length; i++){
-        $("#post_"+the_id).append('<div class="card-comment"><img class="img-circle img-sm" src="dist/img/user3-128x128.jpg" alt="User Image"><div class="comment-text"><span class="username">'+response[i].full_name+'<span class="text-muted float-right">8:03 PM Today</span></span>'+response[i].text+'</div></div>');
+
+    var t = "#post_"+ids[h];
+
+        $(t).append('<div class="card-comment"><img class="img-circle img-sm" src="dist/img/user3-128x128.jpg" alt="User Image"><div class="comment-text"><span class="username">'+response[i].full_name+'<span class="text-muted float-right">8:03 PM Today</span></span>'+response[i].text+'</div></div>');
 
   }
 
@@ -861,6 +867,7 @@ $.ajax(settings).done(function (response) {
 
 });
 
+}
 
     /*
      * LINE CHART
