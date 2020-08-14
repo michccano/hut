@@ -9,11 +9,7 @@ $team_id = $_SESSION["team_id"];
 
 $id = $_SESSION["user_id"];
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "huddleup";
-
+include("config.php");
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -79,6 +75,10 @@ if($tmp1<60){
 
 
 }
+
+
+
+
 
 
 

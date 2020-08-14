@@ -234,11 +234,7 @@ error_reporting("E_ALL");
 
 $_SESSION["user_id"] = 1;
 
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "huddleup";
+include("./system/config.php");
 
 
 $my_teams = array();
