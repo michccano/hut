@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2020 at 10:01 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.4
+-- Generation Time: Aug 21, 2020 at 11:59 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,7 +31,7 @@ CREATE TABLE `huddleup_alerts` (
   `id` int(5) NOT NULL,
   `team_id` int(5) DEFAULT NULL,
   `status` int(2) DEFAULT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -52,7 +51,7 @@ CREATE TABLE `huddleup_comments` (
   `id` int(5) NOT NULL,
   `post_id` int(5) DEFAULT NULL,
   `commenter_id` int(5) DEFAULT NULL,
-  `description` text
+  `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -74,7 +73,12 @@ INSERT INTO `huddleup_comments` (`id`, `post_id`, `commenter_id`, `description`)
 (12, 2, 1, 'cool'),
 (13, 1, 1, 'nice'),
 (14, 3, 1, 'sure'),
-(15, 4, 1, 'oh yea');
+(15, 4, 1, 'oh yea'),
+(16, 2, 1, 'here'),
+(17, 3, 1, 'yyy'),
+(18, 3, 1, 'COOL'),
+(19, 2, 1, 'hi'),
+(20, 8, 1, 'hi');
 
 -- --------------------------------------------------------
 
@@ -85,16 +89,53 @@ INSERT INTO `huddleup_comments` (`id`, `post_id`, `commenter_id`, `description`)
 CREATE TABLE `huddleup_huddleups` (
   `id` int(5) NOT NULL,
   `team_id` int(5) DEFAULT NULL,
-  `title` text,
-  `status` int(1) NOT NULL
+  `title` text DEFAULT NULL,
+  `status` int(1) NOT NULL,
+  `sub_title` text NOT NULL,
+  `huddleup_type` varchar(255) NOT NULL,
+  `criteria_to_close` varchar(255) NOT NULL,
+  `details` text NOT NULL,
+  `seen_by` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `huddleup_huddleups`
 --
 
-INSERT INTO `huddleup_huddleups` (`id`, `team_id`, `title`, `status`) VALUES
-(1, 1, 'Yes yes', 1);
+INSERT INTO `huddleup_huddleups` (`id`, `team_id`, `title`, `status`, `sub_title`, `huddleup_type`, `criteria_to_close`, `details`, `seen_by`) VALUES
+(1, 1, 'Yes yes', 1, '', '', '', '', ',1'),
+(2, 0, '', 0, '', '', '', '', ''),
+(3, 0, 'asd', 0, '', '-Information Sharing', '-Everyone Accepts', '', ''),
+(4, 0, 'asd', 0, '', '-Information Sharing', '-Everyone Accepts', '', ''),
+(5, 0, 'asd', 0, '', '-Problem', '-Everyone Accepts', '', ''),
+(6, 0, 'asd', 0, '', '-Problem', '-Everyone Accepts', '', ''),
+(7, 0, 'asd', 0, '', '-Problem', '-Everyone Accepts', '', ''),
+(8, 1, 'asd', 0, '', '-Problem', '-Everyone Accepts', '', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `huddleup_huddleup_posts`
+--
+
+CREATE TABLE `huddleup_huddleup_posts` (
+  `id` int(5) NOT NULL,
+  `team_id` int(5) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `op_user_id` int(5) NOT NULL,
+  `typ` int(1) NOT NULL,
+  `huddleup_id` int(5) NOT NULL,
+  `whn` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `huddleup_huddleup_posts`
+--
+
+INSERT INTO `huddleup_huddleup_posts` (`id`, `team_id`, `description`, `op_user_id`, `typ`, `huddleup_id`, `whn`) VALUES
+(1, 1, 'Hello', 1, 0, 1, '0000-00-00 00:00:00'),
+(28, 1, ' ', 1, 1, 1, '2020-08-14 04:51:40'),
+(29, 1, ' ', 1, 0, 1, '2020-08-14 04:51:47');
 
 -- --------------------------------------------------------
 
@@ -105,19 +146,20 @@ INSERT INTO `huddleup_huddleups` (`id`, `team_id`, `title`, `status`) VALUES
 CREATE TABLE `huddleup_posts` (
   `id` int(5) NOT NULL,
   `team_id` int(5) DEFAULT NULL,
-  `description` text,
-  `op_user_id` int(5) NOT NULL
+  `description` text DEFAULT NULL,
+  `op_user_id` int(5) NOT NULL,
+  `typ` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `huddleup_posts`
 --
 
-INSERT INTO `huddleup_posts` (`id`, `team_id`, `description`, `op_user_id`) VALUES
-(1, 1, 'Hello', 1),
-(2, 1, 'Hello', 1),
-(3, 2, 'Hello', 1),
-(4, 2, 'Hello', 1);
+INSERT INTO `huddleup_posts` (`id`, `team_id`, `description`, `op_user_id`, `typ`) VALUES
+(1, 1, 'Hello', 1, 0),
+(2, 1, 'Hello', 1, 0),
+(3, 2, 'Hello', 1, 0),
+(4, 2, 'Hello', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -127,7 +169,7 @@ INSERT INTO `huddleup_posts` (`id`, `team_id`, `description`, `op_user_id`) VALU
 
 CREATE TABLE `teams` (
   `id` int(5) NOT NULL,
-  `team_name` text
+  `team_name` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -147,17 +189,18 @@ INSERT INTO `teams` (`id`, `team_name`) VALUES
 CREATE TABLE `team_members` (
   `id` int(5) NOT NULL,
   `team_id` int(5) DEFAULT NULL,
-  `user_id` int(5) DEFAULT NULL
+  `user_id` int(5) DEFAULT NULL,
+  `seen_by` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `team_members`
 --
 
-INSERT INTO `team_members` (`id`, `team_id`, `user_id`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 1, 2);
+INSERT INTO `team_members` (`id`, `team_id`, `user_id`, `seen_by`) VALUES
+(1, 1, 1, ''),
+(2, 2, 1, ''),
+(3, 1, 2, '');
 
 -- --------------------------------------------------------
 
@@ -181,7 +224,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'asdasd sdfsdf', 'mccano@protonmail.com', NULL, '$2y$10$b4IyKs/WQWSsnQSEX.eLtObIAENwhRUaZWSPZ2ZxCpu244kWNd/0m', NULL, '2020-08-02 02:12:44', '2020-08-02 02:12:44');
+(1, 'asdasd sdfsdf', 'mccano@protonmail.com', NULL, '123wet123', NULL, '2020-08-02 02:12:44', '2020-08-02 02:12:44');
 
 -- --------------------------------------------------------
 
@@ -191,8 +234,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 
 CREATE TABLE `user_profile` (
   `id` int(5) NOT NULL,
-  `full_name` text,
-  `profile_pic` text,
+  `full_name` text DEFAULT NULL,
+  `profile_pic` text DEFAULT NULL,
   `user_id` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -224,6 +267,12 @@ ALTER TABLE `huddleup_comments`
 -- Indexes for table `huddleup_huddleups`
 --
 ALTER TABLE `huddleup_huddleups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `huddleup_huddleup_posts`
+--
+ALTER TABLE `huddleup_huddleup_posts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -271,13 +320,19 @@ ALTER TABLE `huddleup_alerts`
 -- AUTO_INCREMENT for table `huddleup_comments`
 --
 ALTER TABLE `huddleup_comments`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `huddleup_huddleups`
 --
 ALTER TABLE `huddleup_huddleups`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `huddleup_huddleup_posts`
+--
+ALTER TABLE `huddleup_huddleup_posts`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `huddleup_posts`
