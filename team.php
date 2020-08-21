@@ -17,6 +17,24 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+$keyident = "";
+
+
+$sql = "SELECT * from teams where id=".$_GET["id"]." and creator=".$user_id;
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+
+
+while($row = $result->fetch_assoc()) 
+{
+
+$keyident = $row["keyident"];
+
+}
+
+}
+
 
 $members = array();
 
@@ -181,9 +199,12 @@ else{
         <!-- /.row -->
         <div class="row">
           <!-- /.col -->
+          <?php if($keyident!=""){?>
           <div class="col-md-3">
-
-          </div>
+              <p text-align="center"><center>Key</center></p>
+    
+      <p text-align="center"><center><?php echo $keyident;?></center></p>  
+          </div><?php }?>
           <div class="col-md-3">
             <div class="card card-success">
             

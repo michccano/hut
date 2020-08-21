@@ -105,8 +105,6 @@ session_start();
 
 <?php
 
-error_reporting("E_ALL");
-
 
 
 $servername = "localhost";
@@ -121,6 +119,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+
 $sql = "SELECT * from users where email='".$_POST["email"]."' and password='".md5($_POST["password"])."'";
 $result = $conn->query($sql);
 
@@ -129,7 +128,7 @@ if ($result->num_rows > 0) {
 {
 
 
-$_SESSION["user_id"] = 1;
+$_SESSION["user_id"] = $row["id"];
 
 }
 

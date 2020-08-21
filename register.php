@@ -1,5 +1,6 @@
 <?php
 
+error_reporting("E_ALL");
 
 
 $_SESSION["user_id"] = 1;

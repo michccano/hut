@@ -7,19 +7,23 @@ error_reporting("E_ALL");
 
 $user_id = $_SESSION["user_id"];
 
+function GenerateSerial() {
 
-$tid = $_SESSION["team_id"];
-$title = $_POST["title"];
-$st = $_POST["sub_title"];
+$chars = array(0,1,2,3,4,5,6,7,8,9);
+$sn = '';
+$max = count($chars)-1;
+
+for($i=0;$i<20;$i++){
+ $sn .= (!($i % 5) && $i ? '' : '').$chars[rand(0, $max)];
+  }
+return $sn;
+ }
 
 
-$thu = $_POST["type_huddle_up"];
-$ctc = $_POST["criteria_to_close"];
-                       
+echo GenerateSerial();
 
 
-
-    ?>
+?>
 
 
 <!DOCTYPE html>
@@ -33,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Create New Hudle Up</title>
+  <title>Create a Team</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -248,20 +252,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Create New Huddle Up</h1>
+            <h1 class="m-0 text-dark">Create a Team</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Create New Huddle Up</li>
+              <li class="breadcrumb-item active">Create a Team</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
- 
 
     <!-- Main content -->
     <div class="content">
@@ -271,63 +273,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- general form elements -->
             <div class="card card-outline card-info">
               <div class="card-header">
-                <h3 class="card-title">Create A New Huddle Up Post</h3>
+                <h3 class="card-title">Create a Team</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-
-              <form role="form" action="create-new-huddle-up.php" method="POST">
+              <form role="form" action="createateam.php" method="POST">
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="text1">Title of the Huddle Up</label>
-                    <input type="text" name="title" class="form-control" id="text1" placeholder="Enter">
+                    <label for="text1">Enter the Name of your team here</label>
+                    <input type="text" name="team_name" class="form-control" id="text1" placeholder="Enter">
                   </div>
                   <div class="form-group">
-                    <label for="text2">Sub Title</label>
-                    <input type="text" title="sub_title" class="form-control" id="text2" placeholder="Enter">
+                    <label for="email">Invite Your Team</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter">
                   </div>
-                  <div class="form-group">
-                        <label>Type of Huddle Up</label>
-                        <select name="type_huddle_up" class="form-control select2bs4">
-                          <option>-Brainstorming</option>
-                          <option>-Information Sharing</option>
-                          <option>-Problem</option>
-                          <option>-Status Update</option>
-                        </select>
-                      </div>
-
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                        <label>Criteria to Close</label>
-                        <select name="criteria_to_close" class="form-control select2bs4">
-                          <option>-Poll</option>
-                          <option>-Everyone Accepts</option>
-                          <option>-Everyone Acknowledges</option>
-                          <option>-People Reply</option>
-                          <option>-People view the attachments </option>
-                        </select>
-                      </div>
-                      </div>
-                      <div class="col-md-6">
-                        <!-- Date -->
-                        <div class="form-group">
-                          <label>Date:</label>
-                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.form group -->
-                        <!-- Date range -->
-                      </div>
-                    </div>
 
                     <div class="form-group">
-                      <label>Details:</label>
-                      <textarea class="textarea" placeholder="Place some text here"
+                      <label>Team Name:</label>
+                      <textarea class="textarea"  placeholder="Enter a cool name here."
+                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label>Describe Your Team:</label>
+                      <textarea class="textarea" name="details" placeholder="Place some text here"
                           style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                     </div>
                 </div>
@@ -390,11 +359,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <?php
-$thu = $_POST["type_huddle_up"];
-$ctc = $_POST["criteria_to_close"];
+$team_name = $_POST["team_name"];
+$details = $_POST["details"];
                        
 
 
@@ -409,12 +379,20 @@ if ($conn->connect_error) {
 }
 
 
-if(isset($title)){
+if(isset($team_name)){
 
-$sql0 = "insert into huddleup_huddleups (team_id,title,sub_title,huddleup_type,criteria_to_close) values ('".$tid."','".$title."','".$st."','".$thu."','".$ctc."')";
+$sql0 = "insert into teams (team_name,details,keyident,creator) values ('".$team_name."','".$details."','".GenerateSerial()."',".$_SESSION["user_id"].")";
 $conn->query($sql0);
+
+  $last_id = $conn->insert_id;
+
+$sql1 = "insert into team_members (team_id,user_id) values (".$last_id.",".$_SESSION["user_id"].")";
+$conn->query($sql1);
+
+
+
 echo "<script>Swal.fire(
-  'Huddle Up Created!',
+  'Team Created!',
   '',
   'success'
 );</script>";
@@ -423,6 +401,7 @@ echo "<script>Swal.fire(
     ?>
 
 ?>
+
 
 
 <!-- Page script -->
