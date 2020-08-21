@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2020 at 11:59 AM
+-- Generation Time: Aug 21, 2020 at 03:15 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -169,16 +169,24 @@ INSERT INTO `huddleup_posts` (`id`, `team_id`, `description`, `op_user_id`, `typ
 
 CREATE TABLE `teams` (
   `id` int(5) NOT NULL,
-  `team_name` text DEFAULT NULL
+  `team_name` text DEFAULT NULL,
+  `keyident` varchar(50) NOT NULL,
+  `details` text NOT NULL,
+  `creator` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `teams`
 --
 
-INSERT INTO `teams` (`id`, `team_name`) VALUES
-(1, 'Team 1'),
-(2, 'Team 2');
+INSERT INTO `teams` (`id`, `team_name`, `keyident`, `details`, `creator`) VALUES
+(1, 'Team 1', '', '', 0),
+(2, 'Team 2', '', '', 0),
+(3, 'werer', '82881072310414024806', '<p>werwerwer</p>', 0),
+(4, 'werer', '83039498752448785513', '<p>werwerwer</p>', 0),
+(5, 'sdgfsdfg', '76626100603889364733', '<p>sdgsdg</p>', 1),
+(6, 'sdgfsdfg', '02340516398599678315', '<p>sdgsdg</p>', 1),
+(7, 'sdgfsdfg', '47344233108059107646', '<p>sdgsdg</p>', 1);
 
 -- --------------------------------------------------------
 
@@ -198,9 +206,10 @@ CREATE TABLE `team_members` (
 --
 
 INSERT INTO `team_members` (`id`, `team_id`, `user_id`, `seen_by`) VALUES
-(1, 1, 1, ''),
+(1, 3, 1, ''),
 (2, 2, 1, ''),
-(3, 1, 2, '');
+(3, 1, 3, ''),
+(4, 7, 1, '');
 
 -- --------------------------------------------------------
 
@@ -224,7 +233,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'asdasd sdfsdf', 'mccano@protonmail.com', NULL, '123wet123', NULL, '2020-08-02 02:12:44', '2020-08-02 02:12:44');
+(2, '', '', NULL, 'd41d8cd98f00b204e9800998ecf8427e', NULL, NULL, NULL),
+(3, '', 'mccano@protonmail.com', NULL, '390693d4781e3904f632f9521e7cc2fb', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -344,19 +354,19 @@ ALTER TABLE `huddleup_posts`
 -- AUTO_INCREMENT for table `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `team_members`
 --
 ALTER TABLE `team_members`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_profile`
