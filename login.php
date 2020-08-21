@@ -121,7 +121,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * from users where email='".$_POST["email"]."' and password='".$_POST["password"]."'";
+$sql = "SELECT * from users where email='".$_POST["email"]."' and password='".md5($_POST["password"])."'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
