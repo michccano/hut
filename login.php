@@ -105,13 +105,7 @@ session_start();
 
 <?php
 
-
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "huddleup";
-
+include("system/config.php");
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

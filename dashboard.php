@@ -65,11 +65,37 @@ $fn = $row3["full_name"];
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <style>
+.swal2-container {
+  z-index: 20;
+}
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-  
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+       
+          <h4 class="modal-title">Join a Team</h4>
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+   
+          <div class="form-group">
+  <label for="usr">Key:</label>
+  <input type="text" class="form-control" id="keyident">
+</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="joinTeam()">Join</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 <?php include("navbar.php");?>
 
@@ -100,6 +126,18 @@ $fn = $row3["full_name"];
     <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
+
+               <div class="row">
+                      <div class="col-12 d-flex justify-content-end" data-toggle="modal" data-target="#myModal">
+          
+             <p align-text="right"><a href="#" class="btn btn-sm btn-success">
+                     JOIN A TEAM
+                  </a></p>
+              </div>
+            
+              
+           
+               </div>
         <div class="row">
           
 <?php
@@ -624,7 +662,7 @@ $conn->close();
 <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
 <script src="plugins/flot-old/jquery.flot.pie.min.js"></script>
 <!-- Page script -->
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
 
   $(".team-card").click(function (e){
@@ -673,12 +711,60 @@ $.ajax(settings).done(function (response) {
 });
 
 
+function joinTeam(){
+  var settings = {
+  "url": "system/jointeam.php",
+  "method": "POST",
+  "timeout": 0,
+  "headers": {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Authorization": "Bearer "+localStorage.token
+  },
+  "data":{"keyident":$("#keyident").val()}
+};
+
+
+$.ajax(settings).done(function (response) {
+
+if(response.message=="Invalid"){
+Swal.fire(
+  'Team does not exist!',
+  '',
+  'warning'
+);
+}
+
+if(response.message=="success"){
+  Swal.fire(
+  'You joined the team',
+  '',
+  'success'
+);
+}
+
+
+if(response.message=="already"){
+    Swal.fire(
+  'You are already a member of this team.',
+  '',
+  'success'
+);
+}
+$(".swal2-contonair").css("z-index",20);
+
+});
+}
+
 $(function () {
     
 
 <?php
 
 include("checker.php");
+
+
+
+
 
 $ttt = "";
 
