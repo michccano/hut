@@ -65,11 +65,7 @@ $fn = $row3["full_name"];
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <style>
-.swal2-container {
-  z-index: 20;
-}
-  </style>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -750,7 +746,8 @@ if(response.message=="already"){
   'success'
 );
 }
-$(".swal2-contonair").css("z-index",20);
+
+
 
 });
 }
