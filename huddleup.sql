@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2020 at 03:15 PM
+-- Generation Time: Aug 24, 2020 at 06:34 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -209,7 +209,9 @@ INSERT INTO `team_members` (`id`, `team_id`, `user_id`, `seen_by`) VALUES
 (1, 3, 1, ''),
 (2, 2, 1, ''),
 (3, 1, 3, ''),
-(4, 7, 1, '');
+(4, 7, 1, ''),
+(5, 5, 1, ''),
+(6, 5, 1, '');
 
 -- --------------------------------------------------------
 
@@ -360,7 +362,7 @@ ALTER TABLE `teams`
 -- AUTO_INCREMENT for table `team_members`
 --
 ALTER TABLE `team_members`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
